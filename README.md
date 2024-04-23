@@ -32,3 +32,42 @@ $ecc = new phpSecureECC();
 $privateKey = $ecc->generatePrivateKey();
 $publicKey = $ecc->derivePublicKey($privateKey);
 ```
+
+### Compressing/Decompressing Keys
+
+Compress and decompress a public key
+
+```php
+$compressedKey = $ecc->compressPublicKey($publicKey);
+$decompressedKey = $ecc->decompressPublicKey($compressedKey);
+```
+
+### Deriving Shared Keys
+
+The Elliptic Curve Diffie-Hellman (ECDH) protocol allows two parties to establish a shared secret over an insecure channel. This shared secret can then be used to encrypt subsequent communications.
+
+```php
+// Alice's side
+$eccAlice = new phpSecureECC();
+$privateKeyAlice = $eccAlice->generatePrivateKey();
+// This public key can be shared with Bob through an insecure channel
+$publicKeyAlice = $eccAlice->derivePublicKey($privateKeyAlice);
+
+// Bob's side
+$eccBob = new phpSecureECC();
+$privateKeyBob = $eccBob->generatePrivateKey();
+// This public key can be shared with Alice through an insecure channel
+$publicKeyBob = $eccBob->derivePublicKey($privateKeyBob);
+
+// Derive the shared key
+// Alice uses her private key and Bob's public key
+$sharedKeyAlice = $eccAlice->calculateSharedKey($privateKeyAlice, $publicKeyBob);
+
+// Bob uses his private key and Alice's public key
+$sharedKeyBob = $eccBob->calculateSharedKey($privateKeyBob, $publicKeyAlice);
+
+// Both shared keys should be identical
+echo $sharedKeyAlice === $sharedKeyBob ? "Shared keys match." : "Shared keys do not match.";
+
+// This shared secret can then be used by both Alice and Bob to encrypt subsequent communications using AES or another cryptographic algorithm
+```

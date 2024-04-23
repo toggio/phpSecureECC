@@ -14,6 +14,11 @@ This library provides robust tools for secure key generation, message encryption
 - **Base58 Encoding/Decoding**: Encode and decode data in Base58, commonly used in cryptocurrencies for a more compact, human-readable format.
 - **Pure PHP**: Single file, easy to use class with no need for external libraries.
 
+## Requirements
+- PHP GMP Extension
+- (optional) PHP OPENSSL Extension (for encryption and decryption methods)
+
+
 ## Usage
 
 ### Installation
@@ -113,3 +118,37 @@ $encrypted = $eccAlice->encryptWithSingleKey("Secure message", $publicKeyBob,tru
 // Decrypt the message using Bob's private key
 $decrypted = $eccBob->decryptWithSingleKey($encrypted, $privateKeyBob,true);
 ```
+
+### Signing and verifying messages (Digital Signatures)
+
+Create and verify digital signatures to validate the authenticity and integrity of messages
+
+```php
+// Sign a message with Alice's private key
+$signature = $eccAlice->sign("Verify me", $privateKeyAlice);
+
+// Verify the signature with Alice's public key
+$isVerified = $eccBob->verify("Verify me", $signature, $publicKeyAlice);
+echo $isVerified ? "Signature verified successfully." : "Signature verification failed.";
+```
+
+## Advanced Usage
+
+For users seeking to utilize the full spectrum of capabilities offered by phpSecureECC, the library includes several advanced methods. Detailed explanations and usage guidelines for these methods can be found in the extensive comments within the class file itself. These comments provide insights into the nuances of the cryptographic operations and help guide the implementation of more complex functionalities.
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to fork the repository, make changes, and submit pull requests. Please open issues for any bugs or enhancements you have in mind.
+
+## Help us
+
+If you find this project useful and would like to support its development, consider making a donation. Any contribution is greatly appreciated!
+
+**Bitcoin (BTC) Addresses:**
+- **1LToggio**f3rNUTCemJZSsxd1qubTYoSde6  
+- **3LToggio**7Xx8qMsjCFfiarV4U2ZR9iU9ob
+
+## License
+**phpSecureECC** library is licensed under the Apache License, Version 2.0. You are free to use, modify, and distribute the library in compliance with the license.
+
+Copyright (C) 2024 Luca Soltoggio - https://www.lucasoltoggio.it/

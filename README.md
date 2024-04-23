@@ -71,3 +71,45 @@ echo $sharedKeyAlice === $sharedKeyBob ? "Shared keys match." : "Shared keys do 
 
 // This shared secret can then be used by both Alice and Bob to encrypt subsequent communications using AES or another cryptographic algorithm
 ```
+
+### Encrypting and Decrypting Messages (with or without Digital Signatures)
+
+Use private key along with the other party's public key to securely encrypt messages
+
+```php
+// Encrypt a message using Alice's private key and Bob's public key
+$encrypted = $eccAlice->encrypt("Secure message", $privateKeyAlice, $publicKeyBob);
+
+// Decrypt the message using Bob's private key and Alice's public key
+$decrypted = $eccBob->decrypt(encrypted, $privateKeyBob, $publicKeyAlice);
+```
+
+Optionally add a digital signature to sign and verify messages for enhanced security
+
+```php
+// Encrypt a message using Alice's private key and Bob's public key
+$encrypted = $eccAlice->encrypt("Secure message", $privateKeyAlice, $publicKeyBob,true);
+
+// Decrypt the message using Bob's private key and Alice's public key
+$decrypted = $eccBob->decrypt($encrypted, $privateKeyBob, $publicKeyAlice,true);
+```
+
+Use other party's public key to encrypt message
+
+```php
+// Encrypt a message using Bob's public key
+$encrypted = $eccAlice->encryptWithSingleKey("Secure message", $publicKeyBob);
+
+// Decrypt the message using Bob's private key
+$decrypted = $eccBob->decryptWithSingleKey($encrypted, $privateKeyBob);
+```
+
+With digital signature check
+
+```php
+// Encrypt a message using Bob's public key
+$encrypted = $eccAlice->encryptWithSingleKey("Secure message", $publicKeyBob,true);
+
+// Decrypt the message using Bob's private key
+$decrypted = $eccBob->decryptWithSingleKey($encrypted, $privateKeyBob,true);
+```
